@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .normal-class {
+            font-weight:bold;
+        }
+        .class-directive {
+            font-size:30px;
+        }
+    </style>
+    <title>class directive</title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div class="class-directive: cval; normal-class"
+            some-attr="myvalue">
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .directive('classDirective', function ($log) {
+        return {
+            restrict: 'C',
+            template: '<p>A class directive</p>',
+            link: function (scope, el, attrs) {
+                $log.log(el.html());
+                // <p>A class directive</p>
+                $log.log(el.hasClass('normal-class'));
+                // true
+                $log.log(attrs.classDirective);
+                // cval
+                $log.log(attrs.someAttr);
+                // myvalue
+            }
+        };
+    });
+</script>
+</html>

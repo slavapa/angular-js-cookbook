@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Building a simple element directive</title>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <!-- specify root element of application -->
+    <div ng-app="myApp">
+        <!-- register 'my-template.html' with $templateCache -->
+        <!--<script type="text/ng-template" id="my-template.html">
+            <div ng-repeat="num in [1,2,3,4,5]">{{ num }}</div>
+        </script>-->
+        <!-- your custom element -->
+        <my-directive></my-directive>
+    </div>
+</body>
+<script src="simple-element-directive.js"></script>
+</html>

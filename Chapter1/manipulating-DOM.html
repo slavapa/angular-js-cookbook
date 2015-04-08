@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title></title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <button counter></button>
+        <button counter incr="5"></button>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .directive('counter', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, el, attrs) {
+                // read element attribute if it exists
+                var incr = parseInt(attrs.incr || 1)
+                , val = 0;
+                // define callback for vanilla DOM click event
+                el.bind('click', function () {
+                    el.html(val += incr);
+                });
+            }
+        };
+    });
+</script>
+</html>

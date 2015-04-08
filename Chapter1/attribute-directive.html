@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div attribute-directive="aval"
+            some-attr="myvalue">
+            <span>Test</span>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .directive('attributeDirective', function ($log) {
+        return {
+            // restrict defaults to A
+            restrict: 'A',
+            template: '<p>An attribute directive</p>',
+            link: function (scope, el, attrs) {
+                $log.log(el.html());
+                // <p>An attribute directive</p>
+                $log.log(attrs.attributeDirective);
+                // aval
+                $log.log(attrs.someAttr);
+                // myvalue
+            }
+        };
+    });
+</script>
+</html>

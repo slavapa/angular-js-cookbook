@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>comment directive</title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <!-- directive: comment-directive val1 val2 val3 -->
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .directive('commentDirective', function ($log) {
+        return {
+            restrict: 'M',
+            // without replace: true, the template cannot
+            // be inserted into the DOM
+            replace: true,
+            template: '<p>A comment directive</p>',
+            link: function (scope, el, attrs) {
+                $log.log(el.html())
+                // <p>A comment directive</p>
+                $log.log(attrs.commentDirective)
+                // 'val1 val2 val3'
+            }
+        };
+    });
+</script>
+</html>
