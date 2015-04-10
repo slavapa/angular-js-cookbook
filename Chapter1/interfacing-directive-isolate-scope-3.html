@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Interfacing with a directive using isolate scope 3 methods binding</title>
+</head>
+<body>
+    <h1>Interfacing with a directive using isolate scope 3 methods binding</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="MainCtrl">
+            <div>Outer: {{ outerval }}</div>
+            <div iso myattr="func()"></div>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .controller('MainCtrl', function ($log, $scope) {
+        $scope.outerval = 'mydata';
+        $scope.func = function () {
+            $log.log('invoked!');
+            //alert(1);
+        };
+    })
+    .directive('iso', function () {
+        return {
+            template: 'Inner: {{ innerval }}',
+            scope: {
+                innerval: '&myattr'
+            },
+            link: function (scope) {
+                //alert(2);
+                scope.innerval();
+                //alert(3);
+                // invoked!
+            }
+        };
+    });
+
+</script>
+</html>

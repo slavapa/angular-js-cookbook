@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Linking directives</title>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div buffer="300"
+            vector-text>
+        </div>
+    </div>
+    
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .directive('vectorText', function ($document) {
+            return {
+                template: '<span>{{ heading }}</span>',
+                link: function (scope, el, attrs) {
+                    // initialize the css
+                    el.css({
+                        'float': 'left',
+                        'padding': attrs.buffer + "px"
+                    });
+                    // initialize the scope variable
+                    scope.heading = '';
+                    // set event listener and handler
+                    $document.on('mousemove', function (event) {
+                        // mousemove event does not start $digest,
+                        // scope.$apply does this manually
+                        scope.$apply(function () {
+                            if (event.pageY < 300) {
+                                scope.heading = 'N';
+                            } else {
+                                scope.heading = 'S';
+                            }
+                            if (event.pageX < 300) {
+                                scope.heading += 'W';
+                            } else {
+                                scope.heading += 'E';
+                            }
+                        });
+                    });
+                }
+            };
+        });
+</script>
+</html>

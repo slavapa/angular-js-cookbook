@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+
+    </style>
+    <title>Optional nested directive controllers</title>
+</head>
+<body>
+    <h1>Optional nested directive controllers</h1>
+    
+    <div ng-app="myApp">
+        <div parent-directive>
+            <div child-directive
+                sibling-directive>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+
+    angular.module('myApp', [])
+        .directive('parentDirective', function ($log) {
+            return {
+                controller: function () {
+                    this.identify = function () {
+                        $log.log('Parent!');
+                    };
+                }
+            };
+        })
+        .directive('siblingDirective', function ($log) {
+            return {
+                controller: function () {
+                    this.identify = function () {
+                        $log.log('Sibling!');
+                    };
+                }
+            };
+        })
+        .directive('childDirective', function ($log) {
+            return {
+                require: ['^parentDirective', '^siblingDirective', '^?missingDirective'],
+                link: function (scope, el, attrs, ctrls) {
+                    ctrls[0].identify();
+                    // Parent!
+                    ctrls[1].identify();
+                    // Sibling!
+                    $log.log(ctrls[2]);
+                    // null
+                }
+            };
+        });
+
+</script>
+</html>

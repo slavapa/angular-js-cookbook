@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Directive scope inheritance</title>
+</head>
+<body>
+    <h1>Directive scope inheritance</h1>
+    <div ng-app="myApp">
+        <div ng-controller="MainCtrl">
+            <my-directive>
+                <p>HTML template</p>
+                <p>Scope from {{origin}}</p>
+                <p>Overwritten? {{overwrite}}</p>
+            </my-directive>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .controller('MainCtrl', function ($scope) {
+        $scope.overwrite = false;
+        $scope.origin = 'parent controller';
+    })
+    .directive('myDirective', function () {
+        return {
+            restrict: 'E',
+            link: function (scope) {
+                scope.overwrite = !!scope.origin;
+                scope.origin = 'link function';
+            }
+        };
+    });
+
+</script>
+</html>
