@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Using the uppercase and lowercase filters</title>
+</head>
+<body>
+    <h1>Using the uppercase and lowercase filters</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <p>{{ data.text | uppercase }}</p>
+            <p>{{ data.nums | uppercase }}</p>
+            <p>{{ data.specialChars | uppercase }}</p>
+            <p>_{{ data.whitespace | uppercase }}_</p>
+        </div>
+        
+        <div ng-controller="Ctrl">
+            <p>{{ data.text | lowercase }}</p>
+            <p>{{ data.nums | lowercase }}</p>
+            <p>{{ data.specialChars | lowercase }}</p>
+            <p>_{{ data.whitespace | lowercase }}_</p>
+        </div>
+    </div>
+
+   
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.data = {
+                text: 'The QUICK brown Fox JUMPS over The LAZY dog',
+                nums: '0123456789',
+                specialChars: '!@#$%^&*()',
+                whitespace: ' '
+            };
+        });
+
+</script>
+</html>

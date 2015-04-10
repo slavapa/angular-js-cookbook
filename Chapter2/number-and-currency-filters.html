@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Using the number and currency filters</title>
+</head>
+<body>
+    <h1>Using the number and currency filters</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <p>{{ data.bignum | number }}</p>
+            <p>{{ data.num | number }}</p>
+            <p>{{ data.smallnum | number }}</p>
+            <p>{{ data.tinynum | number }}</p>
+        </div>
+        <hr />
+        <br />
+        <div ng-controller="Ctrl">
+            <!—- data | number : fractionSize(optional) -->
+            <p>{{ data.smallnum | number : 4 }}</p>
+            <p>{{ data.tinynum | number: 7 }}</p>
+            <p>{{ 012345.6789 | number : 2 }}</p>
+        </div>
+        
+        <hr />
+        <br />
+
+        <div ng-controller="Ctrl">
+            <!—- data | currency : symbol(optional) -->
+            <p>{{ 1234.56 | currency }}</p>
+            <p>{{ 0.02 | currency:"₪" }}</p>
+            <p>{{ 45682.78 | currency : "&#8364;" }}</p>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.data = {
+                bignum: 1000000,
+                num: 1.0,
+                smallnum: 0.9999,
+                tinynum: 0.0000001
+            };
+        });
+</script>
+</html>

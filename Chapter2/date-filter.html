@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Using the date filter</title>
+</head>
+<body>
+    <h1>Using the date filter</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <p>{{ data.unix | date }}</p>
+            <p>{{ data.iso | date }}</p>
+            <p>{{ data.date | date }}</p>
+        </div>
+        <hr />
+        <br />
+        <div ng-controller="Ctrl">
+            <!—- AngularJS matches the expression components to datetime components, then stringifies as specified -->
+        <p>{{ data.unix | date : "EEEE 'at' H:mma" }}</p>
+            <p>{{ data.iso | date : "longDate" }}</p>
+            <p>{{ data.date | date : "M/d H:m:s.sss" }}</p>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.data = {
+                unix: 1394787566535,
+                iso: '2014-03-14T08:59:26Z',
+                date: new Date(2014, 2, 14, 1, 59, 26, 535)
+            };
+        });
+</script>
+</html>
