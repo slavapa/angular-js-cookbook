@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Creating custom data filters</title>
+</head>
+<body>
+    <h1>Creating custom data filters</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <p>{{ myText | simpletruncate }}</p>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.myText = 'Bear down, Chicago Bears, make every play clear the way to victory. Bear down, Chicago Bears, put up a fight with a might so fearlessly. We\'ll never forget the way you thrilled the nation with your T formation. Bear down, Chicago Bears, and let them know why you\'re wearing the crown. You\'re the pride and joy of Illinois, Chicago Bears, Bear down.';
+        })
+        .filter('simpletruncate', function () {
+            // the text parameter 
+            return function (text) {
+                var truncated = text.slice(0, 100);
+                if (text.length > 100) {
+                    truncated += '...';
+                }
+                return truncated;
+            };
+        })
+        .filter('regextruncate', function () {
+            return function (text, limit, stoptext) {
+                var regex = /\s/;
+                if (!angular.isDefined(limit)) {
+                    limit = 100;
+                }
+                if (!angular.isDefined(stoptext)) {
+                    stoptext = '...';
+                }
+                limit = Math.min(limit, text.length);
+                for (var i = 0; i < limit; i++) {
+                    if (regex.exec(text[limit - i]) && !regex.exec(text[(limit - i) - 1])) {
+                        limit = limit - i;
+                        break;
+                    }
+                }
+                var truncated = text.slice(0, limit);
+                if (text.length > limit) {
+                    truncated += stoptext;
+                }
+                return truncated;
+            };
+        });
+
+</script>
+</html>

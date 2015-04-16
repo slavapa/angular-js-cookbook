@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Chaining filters</title>
+</head>
+<body>
+    <h1>Chaining filters</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input type="text" ng-model="search.val" />
+            <!—- simple repeater filtering against search.val -->
+            <p ng-repeat="user in users | filter : search.val">
+                {{ user.name }}
+            </p>
+            <hr />
+            <p ng-repeat="user in users | filter : search.val | limitTo: 2">
+                {{ user.name }}
+            </p>
+            <hr />
+            <p ng-repeat="user in users | filter : search.val | orderBy: 'name' | limitTo : 2">
+                {{ user.name }}
+            </p>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.users = [
+                { name: 'Albert Pai' },
+                { name: 'Jake Hsu' },
+                { name: 'Jack Hanford' },
+                { name: 'Scott Robinson' },
+                { name: 'Diwank Singh' }
+            ];
+        });
+</script>
+</html>
