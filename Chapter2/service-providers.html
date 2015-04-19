@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Using service providers</title>
+</head>
+<body>
+    <h1>Using service providers</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="update()">Update</button>
+            {{ data.name }} #{{ data.number }}
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .config(function (PlayerProvider) {
+        // appending 'Provider' to the injectable 
+        // is an Angular config() provider convention
+        PlayerProvider.configSwapPlayer();
+        console.log(PlayerProvider.configGetPlayer());
+    })
+    .controller('Ctrl', function ($scope, Player) {
+        $scope.data = Player.getPlayer();
+        $scope.update = Player.swapPlayer;
+    })
+    .provider('Player', function () {
+        var player = {
+            name: 'Aaron Rodgers',
+            number: 12
+        }, swap = function () {
+            player.name = 'Tom Brady';
+        };
+
+        return {
+            configSwapPlayer: function () {
+                player.name = 'Andrew Luck';
+            },
+            configGetPlayer: function () {
+                return player;
+            },
+            $get: function () {
+                return {
+                    getPlayer: function () {
+                        return player;
+                    },
+                    swapPlayer: function () {
+                        swap();
+                    }
+                };
+            }
+        };
+    });
+</script>
+</html>

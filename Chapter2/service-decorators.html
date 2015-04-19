@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title></title>
+</head>
+<body>
+    <h1></h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="update()">Update</button>
+            {{ data.name }} #{{ data.number }}
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .config(function ($provide) {
+        $provide.decorator('Player', function ($delegate) {
+            // $delegate is the Player service instance
+            $delegate.setPlayer('Eli Manning');
+            return $delegate;
+        });
+    })
+    .controller('Ctrl', function ($scope, Player) {
+        $scope.data = Player.getPlayer();
+        $scope.update = Player.swapPlayer;
+    })
+    .factory('Player', function () {
+        var player = {
+            number: 10
+        }, swap = function () {
+            player.name = 'DeSean Jackson';
+        };
+
+        return {
+            setPlayer: function (newName) {
+                player.name = newName;
+            },
+            getPlayer: function () {
+                return player;
+            },
+            swapPlayer: function () {
+                swap();
+            }
+        };
+    });
+</script>
+</html>

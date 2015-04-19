@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Using services</title>
+</head>
+<body>
+    <h1>Using services</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="update()">Update</button>
+            {{ data.name }} #{{ data.number }}
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope, MyService) {
+        $scope.data = MyService.getPlayer();
+        $scope.update = MyService.swapPlayer;
+    })
+    .service('MyService', function () {
+        var player = {
+            name: 'Philip Rivers',
+            number: 17
+        }, swap = function () {
+            player.name = 'Alshon Jeffery';
+        };
+        this.getPlayer = function () {
+            return player;
+        };
+        this.swapPlayer = function () {
+            swap();
+        };
+    });
+</script>
+</html>

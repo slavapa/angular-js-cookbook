@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+    </style>
+    <title>Filtering with custom comparators</title>
+</head>
+<body>
+    <h1>Filtering with custom comparators</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input ng-model="search.$" required />
+            <input ng-model="search.number" required />
+            <p ng-repeat="user in users | filter:search:true">
+                {{ user.firstName}} {{ user.lastName }}
+            </p>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script>
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.users = [
+                {
+                    firstName: 'John',
+                    lastName: 'Stockton',
+                    number: '12'
+                },
+                {
+                    firstName: 'Michael',
+                    lastName: 'Jordan',
+                    number: '23'
+                },
+                {
+                    firstName: 'Allen',
+                    lastName: 'Iverson',
+                    number: '3'
+                }
+            ];
+        });
+
+</script>
+</html>
