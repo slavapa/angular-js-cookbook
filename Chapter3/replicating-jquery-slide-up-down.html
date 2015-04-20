@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .container
+        {
+            overflow: hidden;
+        }
+
+        .slide-tile
+        {
+            transition: all 0.5s ease-in-out;
+            width: 300px;
+            line-height: 300px;
+            text-align: center;
+            border: 1px solid black;
+            transform: translateY(0);
+        }
+
+        .slide-up
+        {
+            transform: translateY(-100%);
+        }
+    </style>
+    <title>Replicating jQuery's slideUp() and slideDown() methods</title>
+</head>
+<body>
+    <h1>Replicating jQuery's slideUp() and slideDown() methods</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="displayToggle=!displayToggle">
+                Toggle Visibility
+            </button>
+            <div class="container">
+                <div class="slide-tile"
+                     ng-class="{'slide-up': !displayToggle}">
+                    Slide me up and down!
+                </div>
+            </div>
+        </div>
+        
+        <div ng-controller="Ctrl2">
+            <button ng-click="displayToggle=!displayToggle">
+                Toggle Visibility
+            </button>
+            <div class="container">
+                <div class="slide-tile" ng-show="displayToggle">
+                    Slide me up and down!
+                </div>
+            </div>
+        </div>   
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+
+
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.displayToggle = true;
+        })
+        .controller('Ctrl2', function ($scope) {
+            $scope.displayToggle = true;
+        });
+
+
+</script>
+</html>

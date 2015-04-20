@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+    </style>
+    <title>JavaScript animation</title>
+</head>
+<body>
+    <h1>JavaScript animation</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="visible=!visible">Toggle</button>
+            <span class="target" ng-if="visible">Bring me in!</span>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+    
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.visible = false;
+        })
+        .animation('.target', function () {
+            return {
+                enter: function (element, done) {
+                    $(element)
+                        .css({
+                            'opacity': 0
+                        });
+                    $(element)
+                        .animate({
+                                'opacity': 1
+                            },
+                            1000,
+                            done);
+                }
+            };
+        });
+
+</script>
+</html>

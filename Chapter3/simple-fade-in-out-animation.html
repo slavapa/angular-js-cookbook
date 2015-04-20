@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .animated-container
+        {
+            padding: 20px;
+            border: 5px solid black;
+        }
+
+            .animated-container.ng-hide-add,
+            .animated-container.ng-hide-remove
+            {
+                transition: all linear 1s;
+            }
+
+                .animated-container.ng-hide-remove,
+                .animated-container.ng-hide-add.ng-hide-add-active
+                {
+                    opacity: 0;
+                }
+
+                    .animated-container.ng-hide-add,
+                    .animated-container.ng-hide-remove.ng-hide-remove-active
+                    {
+                        opacity: 1;
+                    }
+    </style>
+    <title>Creating a simple fade in/out animation</title>
+</head>
+<body>
+    <h1>Creating a simple fade in/out animation</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <label>
+                <button ng-click="boxHidden=!boxHidden">
+                    Toggle Visibility
+                </button>
+            </label>
+            <div class="animated-container" ng-hide="boxHidden">
+                Awesome text!
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.boxHidden = true;
+        });
+
+</script>
+</html>
