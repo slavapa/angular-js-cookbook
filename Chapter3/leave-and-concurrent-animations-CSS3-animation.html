@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .link-container {
+            position: absolute;
+            top: 320px;
+        }
+
+        .animate-container {
+            position: absolute;
+        }
+
+            .animate-container div {
+                width: 300px;
+                text-align: center;
+                line-height: 300px;
+                border: 1px solid black;
+            }
+
+            .animate-container.ng-enter {
+                animation: 1s view-enter;
+                -webkit-animation: 1s view-enter;
+            }
+
+            .animate-container.ng-leave {
+                animation: 0.5s view-leave;
+                -webkit-animation: 0.5s view-leave;
+            }
+
+        @keyframes view-enter {
+            0%, 50% {
+                top: -300px;
+            }
+
+            100% {
+                top: 0px;
+            }
+        }
+
+        @keyframes view-leave {
+            0% {
+                top: 0px;
+            }
+
+            100% {
+                top: -300px;
+            }
+        }
+
+        @-webkit-keyframes view-enter {
+            0%, 50% {
+                top: -300px;
+            }
+
+            100% {
+                top: 0px;
+            }
+        }
+
+        @-webkit-keyframes view-leave {
+            0% {
+                top: 0px;
+            }
+
+            100% {
+                top: -300px;
+            }
+        }
+    </style>
+    <title>Creating leave and concurrent animations with ngView</title>
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+    <script src="../JavaScripts/angular-animate.js"></script>
+
+    <script>
+
+        angular.module('myApp', ['ngAnimate', 'ngRoute'])
+        .config(function ($routeProvider) {
+            $routeProvider
+            .when('/bar', {
+                templateUrl: 'bar.html'
+            })
+            .otherwise({
+                templateUrl: 'foo.html'
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <h1>Creating leave and concurrent animations with ngView</h1>
+    <div ng-app="myApp">
+        <ng-view class="animate-container"></ng-view>
+        <div class="link-container">
+            <a href="#/foo">Foo</a>
+            <a href="#/bar">Bar</a>
+        </div>
+
+        <script type="text/ng-template" id="foo.html">
+        <div>
+            <span>Foo</span>
+        </div>
+        </script>
+        <script type="text/ng-template" id="bar.html">
+        <div>
+            <span>Bar</span>
+        </div>
+        </script>
+    </div>
+
+</body>
+</html>

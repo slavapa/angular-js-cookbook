@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        .link-container {
+            position: absolute;
+            top: 320px;
+        }
+
+        .animate-container {
+            position: absolute;
+        }
+
+            .animate-container div {
+                width: 300px;
+                text-align: center;
+                line-height: 300px;
+                border: 1px solid black;
+            }
+    </style>
+    <title>Creating leave and concurrent animations with ngView JavaScript animation</title>
+</head>
+<body>
+    <h1>Creating leave and concurrent animations with ngView JavaScript animation</h1>
+    <div ng-app="myApp">
+        <ng-view class="animate-container"></ng-view>
+        <div class="link-container">
+            <a href="#/foo">Foo</a>
+            <a href="#/bar">Bar</a>
+        </div>
+
+        <script type="text/ng-template" id="foo.html">
+        <div>
+            <span>Foo</span>
+        </div>
+        </script>
+        <script type="text/ng-template" id="bar.html">
+        <div>
+            <span>Bar</span>
+        </div>
+        </script>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+
+    angular.module('myApp', ['ngAnimate', 'ngRoute'])
+    .config(function ($routeProvider) {
+        $routeProvider
+        .when('/bar', {
+            templateUrl: 'bar.html'
+        })
+        .otherwise({
+            templateUrl: 'foo.html'
+        });
+    })
+    .animation('.animate-container', function () {
+        return {
+            enter: function (element, done) {
+                $(element)
+                .css({
+                    'top': '-300px'
+                });
+                $(element)
+                .delay(500)
+                .animate({
+                    'top': '0px'
+                }, 500, done);
+            },
+            leave: function (element, done) {
+                $(element)
+                .css({
+                    'top': '0px'
+                });
+                $(element)
+                .animate({
+                    'top': '-300px'
+                }, 500, done);
+            }
+        };
+    });
+
+</script>
+</html>
