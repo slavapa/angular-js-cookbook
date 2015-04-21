@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        
+         
+    </style>
+    <title>Use timeout</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Use timeout</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="increment()">Increment</button>
+            {{ val }}
+        </div>
+    </div>
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $timeout) {
+            $scope.val = 0;
+
+            // method that may or may not be called from somewhere
+            // that will not trigger a $digest
+            $scope.increment = function () {
+                // wraps model modification in $timeout promise
+                $timeout(function () {
+                    $scope.val++;
+                });
+            };
+
+            // application component that modifies the model without
+            // triggering a $digest
+            setInterval(function () {
+                $scope.increment();
+            }, 1000);
+        });
+
+</script>
+</html>

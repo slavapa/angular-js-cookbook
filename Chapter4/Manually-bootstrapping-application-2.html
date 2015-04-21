@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        
+         
+    </style>
+    <title>Manually bootstrapping an application 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Manually bootstrapping an application 2</h1>
+
+    <div id="child">
+        <div ng-controller="Ctrl">
+            {{ mydata }}
+        </div>
+    </div>
+
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.mydata = 'Some scope data';
+        });
+
+    angular.element(document).ready(function () {
+        angular.bootstrap(document.getElementById('child'), ['myApp']);
+    });
+
+</script>
+</html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        
+         
+    </style>
+    <title>Using safe $apply 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Using safe $apply 2</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="increment()">Increment</button>
+            {{ val }}
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .config(function ($provide) {
+            // define decorator for $rootScope service
+            return $provide.decorator('$rootScope', function ($delegate) {
+                // $delegate acts as the $rootScope instance
+                $delegate.safeApply = function (func) {
+                    var currentPhase = $delegate.$$phase;
+
+                    // determine if already in $apply/$digest phase
+                    if (currentPhase === "$apply" ||
+                        currentPhase === "$digest") {
+                        // already inside $apply/$digest phase
+
+                        // if safeApply() was passed a function, invoke it
+                        if (typeof func === 'function') {
+                            func();
+                        }
+                    }
+                    else {
+                        // not inside $apply/$digest phase, safe to invoke $apply
+                        $delegate.$apply(func);
+                    }
+                };
+                return $delegate;
+            });
+        })
+        .controller('Ctrl', function ($scope) {
+            $scope.val = 0;
+
+            // method that may or may not be called from somewhere
+            // that will not trigger a $digest
+            $scope.increment = function () {
+                $scope.val++;
+                $scope.safeApply();
+            };
+
+            // application component that modifies the model without
+            // triggering a $digest
+            setInterval(function () {
+                $scope.increment();
+            }, 1000);
+        });
+
+
+</script>
+</html>
