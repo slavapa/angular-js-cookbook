@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .container
+        {
+            line-height: 30px;
+        }
+
+            .container.ng-enter-stagger,
+            .container.ng-leave-stagger,
+            .container.ng-move-stagger
+            {
+                animation-delay: 0.2s;
+                animation-duration: 0;
+                -webkit-animation-delay: 0.2s;
+                -webkit-animation-duration: 0;
+            }
+
+            .container.ng-leave
+            {
+                animation: 0.5s repeat-leave;
+                -webkit-animation: 0.5s repeat-leave;
+            }
+
+            .container.ng-enter
+            {
+                animation: 0.5s repeat-enter;
+                -webkit-animation: 0.5s repeat-enter;
+            }
+
+            .container.ng-move
+            {
+                animation: 0.5s repeat-move;
+                -webkit-animation: 0.5s repeat-move;
+            }
+
+        @keyframes repeat-enter
+        {
+            from
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            to
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+        }
+
+        @keyframes repeat-leave
+        {
+            from
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+
+            to
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+        }
+
+        @keyframes repeat-move
+        {
+            from
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            to
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+        }
+
+        @-webkit-keyframes repeat-enter
+        {
+            from
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            to
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+        }
+
+        @-webkit-keyframes repeat-leave
+        {
+            from
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+
+            to
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+        }
+
+        @-webkit-keyframes repeat-move
+        {
+            from
+            {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            to
+            {
+                opacity: 1;
+                max-height: 30px;
+            }
+        }
+    </style>
+    <title>Staggering batched animations 2</title>
+</head>
+<body>
+    <h1>Staggering batched animations 2</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input ng-model="search" />
+            <div ng-repeat="name in names | filter:search"
+                class="container">
+                {{ name }}
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.names = [
+                'Jake',
+                'Henry',
+                'Roger',
+                'Joe',
+                'Robert',
+                'John'
+            ];
+        });
+</script>
+</html>

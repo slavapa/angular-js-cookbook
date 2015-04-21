@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .container
+        {
+            line-height: 30px;
+        }
+
+            .container.ng-enter,
+            .container.ng-leave,
+            .container.ng-move
+            {
+                transition: all linear 0.2s;
+            }
+
+                .container.ng-enter,
+                .container.ng-leave.ng-leave-active,
+                .container.ng-move
+                {
+                    opacity: 0;
+                    max-height: 0;
+                }
+
+                    .container.ng-enter.ng-enter-active,
+                    .container.ng-leave,
+                    .container.ng-move.ng-move-active
+                    {
+                        opacity: 1;
+                        max-height: 30px;
+                    }
+
+            .container.ng-enter-stagger,
+            .container.ng-leave-stagger,
+            .container.ng-move-stagger
+            {
+                transition-delay: 0.2s;
+                transition-duration: 0;
+            }
+    </style>
+    <title>Staggering batched animations</title>
+</head>
+<body>
+    <h1>Staggering batched animations</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input ng-model="search" />
+            <div ng-repeat="name in names | filter:search"
+                class="container">
+                {{ name }}
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+    
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.names = [
+                'Jake',
+                'Henry',
+                'Roger',
+                'Joe',
+                'Robert',
+                'John'
+            ];
+        });
+</script>
+</html>
