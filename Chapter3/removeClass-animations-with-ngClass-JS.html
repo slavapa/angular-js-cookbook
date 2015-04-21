@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .container
+        {
+            background-color: black;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .prompt
+        {
+            position: absolute;
+            margin: 10px;
+            font-family: courier;
+            color: lime;
+        }
+
+        .cover
+        {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            left: 200px;
+            background-color: black;
+        }
+
+        .blackout
+        {
+            left: 0;
+        }
+    </style>
+    <title>Creating removeClass animations with ngClass JS</title>
+</head>
+<body>
+    <h1>Creating removeClass animations with ngClass JS</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="displayToggle=!displayToggle">
+                Toggle Visibility
+            </button>
+            <div class="container">
+                <span class="prompt">Wake up, Neo...</span>
+                <div class="cover"
+                    ng-class="{blackout: displayToggle}">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+    
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.displayToggle = true;
+        })
+        .animation('.blackout', function () {
+            return {
+                removeClass: function (element, className, done) {
+                    if (className === 'blackout') {
+                        $(element)
+                            .removeClass('blackout')
+                            .css('left', 0)
+                            .animate(
+                                { 'left': '200px' },
+                                3000,
+                                function () {
+                                    $(element).css('left', '');
+                                    done();
+                                }
+                            );
+                    } else {
+                        done();
+                    }
+                }
+            };
+        });
+
+</script>
+</html>

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+        .animate-container
+        {
+            position: relative;
+            margin-bottom: -1px;
+            width: 300px;
+            text-align: center;
+            border: 1px solid black;
+            line-height: 40px;
+        }
+
+        .repeat-container
+        {
+            position: absolute;
+        }
+
+        .animate-container.ng-move
+        {
+            transition: all 1s;
+            opacity: 0;
+            max-height: 0;
+        }
+
+        .animate-container.ng-move-active
+        {
+            opacity: 1;
+            max-height: 40px;
+        }
+
+        .animate-container.ng-enter
+        {
+            transition: left 0.5s, max-height 1s;
+            left: -300px;
+            max-height: 0;
+        }
+
+        .animate-container.ng-enter-active
+        {
+            left: 0px;
+            max-height: 40px;
+        }
+
+        .animate-container.ng-leave
+        {
+            transition: left 0.5s, max-height 1s;
+            left: 0px;
+            max-height: 40px;
+        }
+
+        .animate-container.ng-leave-active
+        {
+            left: -300px;
+            max-height: 0;
+        }
+    </style>
+    <title>Creating move animations with ngRepeat</title>
+</head>
+<body>
+    <h1>Creating move animations with ngRepeat</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <div style="repeat-container">
+                <input ng-model="search.val" />
+                <button ng-click="shuffle()">Shuffle</button>
+                <div ng-repeat="el in arr | filter:search.val"
+                    class="animate-container">
+                    <span>{{ el }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+    
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.arr = [10, 15, 25, 40, 45];
+
+            // implementation of Knuth in-place shuffle
+            function knuthShuffle(a) {
+                for (var i = a.length, j, k; i;
+                    j = Math.floor(Math.random() * i),
+                    k = a[--i],
+                    a[i] = a[j],
+                    a[j] = k);
+                return a;
+            };
+
+            $scope.shuffle = function () {
+                $scope.arr = knuthShuffle($scope.arr);
+            };
+        });
+
+</script>
+</html>

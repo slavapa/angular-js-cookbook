@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <style>
+    </style>
+    <title>Creating addClass animations with ngShow JS</title>
+</head>
+<body>
+    <h1>Creating addClass animations with ngShow JS</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="displayToggle=!displayToggle">
+                Toggle Visibility
+            </button>
+            <div class="animate-container" ng-show="displayToggle">
+                Fade me out!
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="../JavaScripts/jquery-1.11.2.js"></script>
+<script src="../JavaScripts/angular.js"></script>
+<script src="../JavaScripts/angular-animate.js"></script>
+<script>
+    
+    angular.module('myApp', ['ngAnimate'])
+        .controller('Ctrl', function ($scope) {
+            $scope.displayToggle = true;
+        })
+        .animation('.animate-container', function () {
+            return {
+                addClass: function (element, className, done) {
+                    if (className === 'ng-hide') {
+                        $(element)
+                            .removeClass('ng-hide')
+                            .css('opacity', 1)
+                            .animate(
+                                { 'opacity': 0 },
+                                1000,
+                                function () {
+                                    $(element)
+                                        .addClass('ng-hide')
+                                        .css('opacity', 1);
+                                    done();
+                                }
+                            );
+                    } else {
+                        done();
+                    }
+                }
+            };
+        });
+
+</script>
+</html>
