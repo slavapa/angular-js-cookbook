@@ -6,17 +6,26 @@
         
          
     </style>
-    <title></title>
+    <title>The "Controller as" syntax</title>
 
     <script src="../JavaScripts/jquery-1.11.2.js"></script>
     <script src="../JavaScripts/angular.js"></script>
 </head>
 <body>
-    <h1></h1>
+    <h1>The "Controller as" syntax</h1>
 
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl as MyCtrl">
+            {{ MyCtrl.data }}
+        </div>
+    </div>
 
 </body>
 <script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function () {
+        this.data = "This is string data";
+    });
 
 </script>
 </html>

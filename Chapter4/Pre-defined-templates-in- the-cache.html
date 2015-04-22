@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Pre-defined templates in the cache</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Pre-defined templates in the cache</h1>
+
+    <div ng-app="myApp">
+        <player-box></player-box>
+    </div>
+
+</body>
+<script>
+
+    angular.module('myApp', [])
+    .run(function ($templateCache) {
+        $templateCache.put(
+            // the template key
+            'player-box.html',
+            // the template markup
+            '<div>' +
+            '    #{{ player.number }} {{ player.name }}' +
+            '</div>'
+        );
+    })
+    .directive('playerBox', function () {
+        return {
+            templateUrl: 'player-box.html',
+            link: function (scope) {
+                scope.player = {
+                    name: 'Jimmy Butler',
+                    number: 21
+                };
+            }
+        };
+    });
+
+</script>
+</html>

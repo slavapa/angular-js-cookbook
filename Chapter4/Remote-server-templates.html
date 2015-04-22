@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Remote server templates</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Remote server templates</h1>
+
+    <div ng-app="myApp">
+        <player-box></player-box>
+    </div>
+
+</body>
+<script>
+
+    angular.module('myApp', [])
+    .directive('playerBox', function () {
+        return {// will attempt to acquire the template at this relative URL
+            templateUrl: 'static/player-box.html',
+            link: function (scope) {
+                scope.player = {
+                    name: 'Jimmy Butler',
+                    number: 21
+                };
+            }
+        };
+    });
+</script>
+</html>

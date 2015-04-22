@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>The "Controller as" syntax 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>The "Controller as" syntax 2</h1>
+
+    <div ng-app="myApp">
+        <foo-directive></foo-directive>
+    </div>
+
+
+</body>
+<script>
+
+    angular.module('myApp', [])
+    .directive('fooDirective', function () {
+        return {
+            restrict: 'E',
+            template: '<div>{{ fooController.data }}</div>',
+            controller: function () {
+                this.data = 'This is controller data';
+            },
+            controllerAs: 'fooController'
+        };
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Hiding AngularJS from the user</title>
+
+   <!-- <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>-->
+</head>
+<body>
+    <h1>Hiding AngularJS from the user</h1>
+
+    <button id="angular-loader" onclick="loadAngular()">Load AngularJS</button>
+    <div>
+        {{ youShouldntSeeThisBecauseItIsUndefined }}
+    </div>
+    <div ng-cloak>
+        {{ youWontSeeThisBecauseItUsesNgCloak }}
+    </div>
+    <div ng-cloak ng-init="val='Angular was initialized!';">
+        {{ val }}
+    </div>
+
+</body>
+<script>
+
+    function loadAngular() {
+        if (typeof angular === 'undefined') {
+            // add script tag to trigger browser to load angular.min.js
+            var script = document.createElement('script');
+            script.src = "https://code.angularjs.org/1.3.2/angular.min.js ";
+            document.getElementsByTagName('body')[0].appendChild(script);
+
+            // initialize the framework
+            initializeAngular();
+        }
+    }
+
+    function initializeAngular() {
+        if (typeof angular !== 'undefined') {
+            console.log('AngularJS has been loaded!');
+            // initialize top-level application module
+            angular.module('myApp', []);
+            // manually bootstrap
+            angular.element(document).ready(function () {
+                angular.bootstrap(document, ['myApp']);
+                if (document.getElementById('angular-loader').remove) {
+                    document.getElementById('angular-loader').remove();
+                }
+                else {
+                    document.getElementById('angular-loader').
+                        parentElement.removeChild(document.getElementById('angular-loader'));
+                }
+            });
+        } else {
+            // wait for angular.min.js to load
+            setTimeout(initializeAngular, 100);
+        }
+    }
+</script>
+</html>
