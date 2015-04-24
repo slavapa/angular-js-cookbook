@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Building an event bus as a decorator</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Building an event bus as a decorator</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="generateEvent()">Generate event</button>
+        </div>
+        <div my-dir></div>
+    </div>
+
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .config(function ($provide) {
+        $provide.decorator('$rootScope', function ($delegate) {
+            // adds to the constructor prototype to allow use in isolate scopes
+            var proto = $delegate.constructor.prototype;
+
+            proto.subscribe = function (event, listener) {
+                var unsubscribe = $delegate.$on(event, listener);
+                this.$on('$destroy', unsubscribe);
+            };
+
+            proto.publish = function (event, data) {
+                $delegate.$emit(event, data);
+            };
+
+            return $delegate;
+        });
+    })
+    .controller('Ctrl', function ($scope, $log) {
+        $scope.generateEvent = function () {
+            $scope.publish('busEvent');
+        };
+
+        $scope.subscribe('busEvent', function () {
+            $log.log('controller Handler called!');
+        });
+    })
+    .directive('myDir', function ($log) {
+        return {
+            scope: {},
+            link: function (scope, el, attrs) {
+                scope.subscribe('busEvent', function () {
+                    $log.log('directive Handler called!');
+                });
+            }
+        };
+    });
+
+</script>
+</html>

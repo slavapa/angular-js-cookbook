@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Input field cannot be blank 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Input field cannot be blank 2</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <form novalidate name="myform">
+                <input name="myinput" ng-model="formdata.myinput" required />
+                <div ng-show="myform.myinput.$invalid">
+                    Input field cannot be blank
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function () { });
+
+</script>
+</html>

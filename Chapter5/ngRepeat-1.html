@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>ngRepeat 1</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>ngRepeat 1</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            Scope id: {{ $id }}
+            <pre>{{ names | json }}</pre>
+            <div ng-repeat="name in names">
+                Scope id: {{ $id }}
+                <input ng-model="name" />
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope) {
+        $scope.names = [
+        'Alshon Jeffrey',
+        'Brandon Marshall',
+        'Matt Forte',
+        'Martellus Bennett',
+        'Jay Cutler'
+        ];
+    });
+</script>
+</html>

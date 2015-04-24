@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Enter a value 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Enter a value 2</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <form novalidate name="myform">
+                <input name="myinput" ng-model="formdata.myinput" />
+                <div ng-show="myform.myinput.$pristine">
+                    Enter a value
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope) {
+        $scope.$watch('myform.myinput.$pristine', function (newval) {
+            $scope.isPristine = newval;
+        });
+    });
+
+</script>
+</html>

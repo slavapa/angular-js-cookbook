@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Explicitly defining the option values</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Explicitly defining the option values</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <!—- label for value in array -—>
+            <select ng-model="player" ng-options="p.name for p in players track by p.number"></select>
+        </div>
+    </div>
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope) {
+        $scope.players = [
+            {
+                number: 17,
+                name: "Alshon",
+                position: "WR"
+            },
+            {
+                number: 15,
+                name: "Brandon",
+                position: "WR"
+            },
+            {
+                number: 22,
+                name: "Matt",
+                position: "RB"
+            },
+            {
+                number: 83,
+                name: "Martellus",
+                position: "TE"
+            },
+            {
+                number: 6,
+                name: "Jay",
+                position: "QB"
+            }
+        ];
+
+        $scope.team = {
+            '3B': {
+                number: 9,
+                name: "Brandon"
+            },
+            '2B': {
+                number: 19,
+                name: "Marco"
+            },
+            '3B': {
+                number: 48,
+                name: "Pablo"
+            },
+            'C': {
+                number: 28,
+                name: "Buster"
+            },
+            'SS': {
+                number: 35,
+                name: "Brandon"
+            }
+        };
+    });
+
+</script>
+</html>

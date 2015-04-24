@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>custom validators</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>custom validators</h1>
+
+    <div ng-app="myApp">
+        <form novalidate name="myform">
+            <input type="number"
+                ensure-prime name="myinput"
+                ng-model="formdata.myinput"
+                required />
+        </form>
+        <div ng-show="myform.myinput.$invalid">
+            Input field must be a prime number
+        </div>
+    </div>
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .directive('ensurePrime', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ctrl) {
+                function isPrime(n) {
+                    if (n < 2) {
+                        return false;
+                    }
+
+                    var m = Math.sqrt(n);
+
+                    for (var i = 2; i <= m; i++) {
+                        if (n % i === 0) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                scope.$watch(attrs.ngModel, function (newval) {
+                    if (isPrime(newval)) {
+                        ctrl.$setValidity('prime', true);
+                    }
+                    else {
+                        ctrl.$setValidity('prime', false);
+                    }
+                });
+            }
+        };
+    });
+
+</script>
+</html>

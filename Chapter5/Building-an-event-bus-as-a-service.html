@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Building an event bus Basic</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Building an event bus Basic</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="generateEvent()">Generate event</button>
+        </div>
+        <div my-dir></div>
+    </div>
+
+
+</body>
+<script>
+
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope, EventBus, $log) {
+        $scope.generateEvent = function () {
+            EventBus.emitMsg('busEvent');
+        };
+
+        EventBus.onMsg(
+            'busEvent',
+            function () {
+                $log.log('Handler called!');
+            },
+            $scope
+        );
+
+    })
+    .directive('myDir', function ($log, EventBus) {
+        return {
+            scope: {},
+            link: function (scope, el, attrs) {
+                EventBus.onMsg(
+                    'busEvent',
+                    function () {
+                        $log.log('directive Handler called!');
+                    },
+                    scope
+                );
+            }
+        };
+    })
+    .factory('EventBus', function ($rootScope) {
+        var eventBus = {};
+        eventBus.emitMsg = function (msg, data) {
+            data = data || {};
+            $rootScope.$emit(msg, data);
+        };
+        eventBus.onMsg = function (msg, func, scope) {
+            var unbind = $rootScope.$on(msg, func);
+            if (scope) {
+                scope.$on('$destroy', unbind);
+            }
+            return unbind;
+        };
+        return eventBus;
+    });
+
+
+</script>
+</html>

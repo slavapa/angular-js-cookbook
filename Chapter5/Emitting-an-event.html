@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Emitting an event</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Emitting an event</h1>
+
+    <div ng-app="myApp">
+        <my-listener local="outer">
+        <my-listener local="middle">
+            <my-listener local="first inner">
+                <button ng-click="sendUp()">
+                    Send First Up
+                </button>
+            </my-listener>
+            <my-listener local="second inner">
+                <button ng-click="sendUp()">
+                    Send Second Up
+                </button>
+            </my-listener>
+        </my-listener>
+    </my-listener>
+    </div>
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .directive('myListener', function ($log) {
+        return {
+            restrict: 'E',
+            // each directive should be given its own scope
+            scope: true,
+            link: function (scope, el, attrs) {
+                // method to generate event
+                scope.sendUp = function () {
+                    scope.$emit('myEvent', { origin: attrs.local });
+                };
+                // method to listen for event
+                scope.$on('myEvent', function (event, data) {
+                    $log.log(
+                        event.name +
+                        ' observed in ' +
+                        attrs.local +
+                        ', originated from ' +
+                        data.origin
+                    );
+                });
+            }
+        };
+    });
+
+</script>
+</html>

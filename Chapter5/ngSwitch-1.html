@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>ngSwitch 1</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>ngSwitch 1</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            Scope id: {{ $id }}
+        <input ng-model="data.val" />
+            <div ng-switch on="data.val">
+                <div ng-switch-when="123">
+                    Scope id: {{ $id }}
+                <input ng-model="data.val" />
+                </div>
+                <div ng-switch-default>
+                    Scope id: {{ $id }}
+                Default
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope) {
+        $scope.data = {
+            val: 123
+        };
+    });
+
+</script>
+</html>

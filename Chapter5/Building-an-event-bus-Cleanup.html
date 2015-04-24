@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Building an event bus Cleanup</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Building an event bus Cleanup</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="generateEvent()">Generate event</button>
+        </div>
+        <div my-dir></div>
+    </div>
+
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('Ctrl', function ($scope, $rootScope, $log) {
+        $scope.generateEvent = function () {
+            $rootScope.$emit('busEvent');
+        };
+
+        var unbind = $rootScope.$on('busEvent', function () {
+            $log.log('Handler called!');
+        });
+
+        $scope.$on('$destroy', unbind);
+
+    })
+    .directive('myDir', function ($rootScope, $log) {
+        return {
+            scope: {},
+            link: function (scope, el, attrs) {
+                var unbind = $rootScope.$on('busEvent', function () {
+                    $log.log('Handler called!');
+                });
+
+                scope.$on('$destroy', unbind);
+            }
+        };
+    });
+
+
+</script>
+</html>

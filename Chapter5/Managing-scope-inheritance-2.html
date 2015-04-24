@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Managing $scope inheritance 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Managing $scope inheritance 2</h1>
+    <div ng-app="myApp">
+        <div ng-controller="outerCtrl">
+            <input ng-model="data" />
+            <div ng-controller="innerCtrl">
+                <input ng-model="data" />
+            </div>
+            <div ng-controller="innerCtrl">
+                <input ng-model="data" />
+                <button ng-click="reattach()">Reattach</button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('outerCtrl', function ($scope) {
+        $scope.data = 123;
+    })
+    .controller('innerCtrl', function ($scope) {
+        $scope.reattach = function () {
+            delete ($scope.data);
+        };
+    });
+
+</script>
+</html>
