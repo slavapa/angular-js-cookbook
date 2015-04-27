@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Optimizing the application using equality $watch</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Optimizing the application using equality $watch</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <pre>{{ myObj | json }}</pre>
+            <pre>{{ myArr | json }}</pre>
+            <div>
+                <button ng-click="reset()">Reset</button>
+            </div>
+            <hr />
+            <div>
+                <button ng-click="myArr = []">myArr = []</button>
+            </div>
+            <div>
+                <button ng-click="myObj = 1">myObj = 1</button>
+            </div>
+            <div>
+                <button ng-click="myObj = {}">myObj = {}</button>
+            </div>
+            <div>
+                <button ng-click="myObj.myPrim = 'Go Giants!'">myObj.myPrim = 'Go Giants!'</button>
+            </div>
+            <div>
+                <button ng-click="myObj.newProp = {}">myObj.newProp = {}</button>
+            </div>
+            <div>
+                <button ng-click="myArr.push(2)">myArr.push(2)</button>
+            </div>
+            <div>
+                <button ng-click="myArr[0] = 6">myArr[0] = 6</button>
+            </div>
+            <div>
+                <button ng-click="del()">delete myObj.myPrim)</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $log) {
+            $scope.reset = function () {
+                $scope.myObj = {
+                    myPrim: "Go Bears!"
+                };
+                $scope.myArr = [3, 1, 4, 1, 5, 9];
+            };
+
+            $scope.del = function () {
+                delete $scope.myObj.myPrim;
+            };
+
+            $scope.reset();
+
+            // watch myObj by reference
+            $scope.$watch('myObj', function (newVal, oldVal, scope) {
+                // callback logic
+                $log.log('myObj watch callback');
+            }, true);
+
+            // watch only the myPrim property of myObj by reference
+            $scope.$watch('myArr', function (newVal, oldVal, scope) {
+                // callback logic
+                $log.log('myArr watch callback');
+            }, true);
+        });
+
+</script>
+</html>

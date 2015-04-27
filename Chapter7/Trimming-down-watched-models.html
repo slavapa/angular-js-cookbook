@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Trimming down watched models</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Trimming down watched models</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <div ng-controller="FullCtrl" ng-repeat="item in items track by $index">
+                <input ng-model="items[$index].num" />
+            </div>
+        </div>
+        <hr />
+        <div ng-controller="Ctrl">
+            <div ng-controller="ReducedCtrl" ng-repeat="item in items track by $index">
+                <input ng-model="items[$index].num" />
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+
+            var hugeRandomArr = function () {
+                var arr = [];
+                for (var i = 0; i < 100000; i++) {
+                    arr.push(Math.random());
+                }
+                return arr;
+            };
+
+            // initialize array of huge objects with a
+            // property that we would like to ignore
+            $scope.items = [1, 2, 3, 4, 5].map(function (val) {
+                return {
+                    num: val,
+                    hugeArr: hugeRandomArr()
+                };
+            });
+        })
+        .controller('FullCtrl', function ($scope, $log) {
+            // this watcher will execute slowly
+            $scope.$watch('items', function () {
+                $log.log('full changed!');
+            }, true);
+        })
+        .controller('ReducedCtrl', function ($scope, $log) {
+            // this watcher will execute relatively quickly
+            $scope.$watch(
+                function (scope) {
+                    return scope.items.map(function (item) {
+                        return item.num;
+                    });
+                },
+                function (val) {
+                    $log.log('reduced changed!' + val);
+                },
+                true
+            );
+        })
+
+</script>
+</html>

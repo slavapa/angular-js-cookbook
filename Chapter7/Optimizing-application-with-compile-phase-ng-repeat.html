@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Optimizing the application with the compile phase in ng-repeat</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+<h1>Optimizing the application with the compile phase in ng-repeat</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <div ng-repeat="item in items">
+                <my-directive item="{{item}}"></my-directive>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.items = [1, 2, 3, 4, 5];
+        })
+        .directive('myDirective', function ($log) {
+            return {
+                compile: function (el, attrs) {
+                    // this will be called once
+                    $log.log('compiled', attrs.item);
+                    return function link(scope, el, attrs) {
+                        // this will be called items.length times
+                        $log.log('linked', attrs.item);
+                    };
+                }
+            };
+        });
+
+</script>
+</html>

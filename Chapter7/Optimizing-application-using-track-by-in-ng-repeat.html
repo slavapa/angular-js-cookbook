@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Optimizing the application using track by in ng-repeat</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Optimizing the application using track by in ng-repeat</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="items[2] = {}">Append</button>
+            <div ng-repeat="item in items">
+                <my-directive item="{{item}}-noindex">{{item}}</my-directive>
+            </div>
+            <hr />
+            <div ng-repeat="item in items track by $index">
+                <my-directive item="{{item}}-index">{{item}}</my-directive>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope) {
+            $scope.items = [1, 2, 3, 4, 5].map(function (val) {
+                return { num: val };
+            });
+        })
+        .directive('myDirective', function ($log) {
+            return {
+                compile: function (el, attrs) {
+                    $log.log('compiled', attrs.item);
+                    return function link(scope, el, attrs) {
+                        $log.log('linked', attrs.item);
+
+                        // this will only be called in the repeater
+                        // that does not use track by $index
+                        scope.$on('$destroy', function () {
+                            $log.log('destroyed');
+                        })
+                    };
+                }
+            };
+        });
+
+
+</script>
+</html>
