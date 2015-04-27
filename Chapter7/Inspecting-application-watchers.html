@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Inspecting your application's watchers</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Inspecting your application's watchers</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input ng-model="foo" />
+            <input ng-model="bar" />
+            <div>{{ foo }}</div>
+            <div>{{ bar }}</div>
+            <button ng-click="logWatchers()">Log Watchers</button>
+        </div>
+    </div>
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $log) {
+            // invoked once every time $scope.foo is modified
+            $scope.$watch('foo', function (newVal, oldVal, scope) {
+                // newVal is the current value of $scope.foo
+                // oldVal isa the previous value of $scope.foo
+                // scope === $scope
+            });
+
+            // invoked once every time $scope.bar is modified
+            $scope.$watch('bar', function (newVal, oldVal, scope) {
+                // newVal is the current value of $scope.bar
+                // oldVal is the previous value of $scope.bar
+                // scope === $scope
+            });
+
+            // invoked once every $digest cycle
+            $scope.$watch(function (scope) {
+                // scope === $scope
+            });
+
+            $scope.logWatchers = function () {
+                $log.log(getWatchers());
+            };
+        });
+
+    var getWatchers = function (element) {
+        // convert to a jqLite/jQuery element
+        // angular.element is idempotent
+        var el = angular.element(
+                // defaults to the body element
+                element || document.getElementsByTagName('body')
+            )
+            // extract the DOM element data
+            , elData = el.data()
+            // initalize returned watchers array
+            , watchers = [];
+
+        // AngularJS lists watches in 3 categories
+        // each contains an independent watch list
+        angular.forEach([
+                // general inherited scope
+                elData.$scope,
+                // isolate scope attached to templated directive
+                elData.$isolateScope,
+                // isolate scope attached to templateless directive
+                elData.$isolateScopeNoTemplate
+            ],
+            function (scope) {
+                // each element may not have a scope class attached
+                if (scope) {
+                    // attach the watch list
+                    watchers = watchers.concat(scope.$$watchers || []);
+                }
+            }
+        );
+
+        // recurse through DOM tree
+        angular.forEach(el.children(), function (childEl) {
+            watchers = watchers.concat(getWatchers(childEl));
+        });
+
+        return watchers;
+    };
+</script>
+</html>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Creating a universal watch callback</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Creating a universal watch callback</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <input ng-model="foo" />
+            <input ng-model="bar" />
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $log) {
+            // invoked once every time $scope.foo is modified
+            $scope.$watch('foo', function (newVal, oldVal, scope) {
+                // newVal is the current value of $scope.foo
+                // oldVal isa the previous value of $scope.foo
+                // scope === $scope
+                $log.log('foo watcher', newVal, oldVal, scope);
+            });
+
+            // invoked once every time $scope.bar is modified
+            $scope.$watch('bar', function (newVal, oldVal, scope) {
+                // newVal is the current value of $scope.bar
+                // oldVal is the previous value of $scope.bar
+                // scope === $scope
+                $log.log('bar watcher', newVal, oldVal, scope);
+            });
+
+            // invoked once every $digest cycle
+            $scope.$watch(function (scope) {
+                // scope === $scope
+                $log.log('global watcher', scope);
+            });
+        });
+</script>
+</html>
