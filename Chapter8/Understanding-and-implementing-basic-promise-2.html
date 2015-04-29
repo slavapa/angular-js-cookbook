@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Understanding and implementing a basic promise 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Understanding and implementing a basic promise 2</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($q, $log) {
+            var deferred = $q.defer()
+                , promise = deferred.promise;
+
+            // $log.info is the resolve handler,
+            // $log.error is the reject handler 
+            promise.then($log.info, $log.error);
+
+            deferred.resolve(123);
+            // (info) 123
+
+            // reset to demonstrate reject()
+            deferred = $q.defer();
+            promise = deferred.promise;
+
+            promise.then($log.log, $log.error);
+
+            deferred.reject(123);
+            // (error) 123
+        });
+
+</script>
+</html>
