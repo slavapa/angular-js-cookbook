@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Promise notifications 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Promise notifications 2</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="asyncNotification()">asyncNotification</button>
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $q, $log) {
+            var deferred = $q.defer()
+                , promise = deferred.promise;
+
+            promise
+                .then(
+                    function () {
+                        $log.log('success');
+                    },
+                    null,
+                    $log.log
+                );
+
+            $scope.asyncNotification = function () {
+                deferred.notify('Hello, ');
+                $log.log('world!');
+                deferred.resolve();
+            };
+
+            // this function is invoked by some non-AngularJS entity
+            // asyncNotification();
+            // world!
+            // Hello, 
+            // success
+
+        });
+
+</script>
+</html>

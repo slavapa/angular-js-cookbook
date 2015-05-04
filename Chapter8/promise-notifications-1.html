@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Promise notifications 1</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Promise notifications 1</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($q, $log) {
+            var deferred = $q.defer()
+                , promise = deferred.promise;
+
+            promise
+                .then(
+                    // resolved handler
+                    function () {
+                        $log.log('success');
+                    },
+                    // empty rejected handler
+                    null,
+                    // notification handler
+                    $log.log
+                );
+
+            function resolveWithProgressNotifications() {
+                for (var i = 0; i <= 100; i += 20) {
+                    // pass the data to the notification handler
+                    deferred.notify(i);
+                    if (i >= 100) { deferred.resolve() };
+                };
+            }
+
+            resolveWithProgressNotifications();
+            // 0
+            // 20
+            // 40
+            // 60
+            // 80
+            // 100
+            // "success"
+        });
+
+</script>
+</html>
