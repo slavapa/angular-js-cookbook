@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Data handoff for chained handlers</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Data handoff for chained handlers</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($q, $log) {
+            var deferred = $q.defer()
+                , promise = deferred.promise;
+
+            var successHandler = function (val) {
+                $log.log(val);
+                return val + 1;
+            };
+
+            promise
+                .then(successHandler)
+                .then(successHandler)
+                .then(successHandler);
+
+            deferred.resolve(0);
+            // 0
+            // 1
+            // 2
+        });
+
+</script>
+</html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Promise handler trees</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Promise handler trees</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($q, $log) {
+            var deferred = $q.defer()
+                , promise = deferred.promise;
+
+            var incr = function (val) {
+                $log.log(val);
+                return val + 1;
+            };
+
+            // define the top level promise handler
+            promise.then(incr);
+            // append another handler for the first promise, and collect
+            // the returned promise in secondPromise
+            var secondPromise = promise.then(incr);
+            // append another handler for the second promise, and collect
+            // the returned promise in thirdPromise
+            var thirdPromise = secondPromise.then(incr);
+
+            // at this point, deferred.resolve() will:
+            // resolve promise; promise’s handlers executes
+            // resolve secondPromise; secondPromises’s handler executes
+            // resolve thirdPromise; no handlers defined yet
+
+            // additional promise handler definition order is
+            // unimportant; they will be resolved as the promises
+            // sequentially have their states defined
+            secondPromise.then(incr);
+            promise.then(incr);
+            thirdPromise.then(incr);
+
+            // the setup currently defined is as follows:
+            // promise -> secondPromise -> thirdPromise
+            // incr()     incr()           incr()
+            // incr()     incr()
+            // incr()
+
+            deferred.resolve(0);
+            // 0
+            // 0
+            // 0
+            // 1
+            // 1
+            // 2    
+        });
+
+</script>
+</html>
