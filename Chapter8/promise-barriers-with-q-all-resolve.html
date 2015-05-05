@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Implementing promise barriers with $q.all() Resolve</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Implementing promise barriers with $q.all() Resolve</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($q, $log) {
+            var deferred1 = $q.defer()
+                , promise1 = deferred1.promise
+                , deferred2 = $q.defer()
+                , promise2 = deferred2.promise;
+
+            $q.all([promise1, promise2]).then($log.log);
+
+            deferred1.resolve(456);
+            deferred2.resolve(123);
+            // [456, 123]
+        });
+
+</script>
+</html>

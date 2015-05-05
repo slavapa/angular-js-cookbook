@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>promise wrappers with $q.when()</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>promise wrappers with $q.when()</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($scope, $q, $log) {
+            setTimeout(function () {
+                var newPromise = $q.when(123);
+
+                // promise will wait for a $digest cycle to update $$state.status,
+                // this forces it to update for inspection
+                $scope.$apply();
+
+                // inspecting the status reveals it has already resolved
+                $log.log(newPromise.$$state.status);
+                // 1
+
+                // since it is resolved, the handler will execute immediately
+                newPromise.then($log.log);
+                // 123
+            });
+        });
+
+
+</script>
+</html>
