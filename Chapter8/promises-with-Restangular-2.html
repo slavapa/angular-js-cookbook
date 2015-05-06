@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Using promises with Restangular 2</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Using promises with Restangular 2</h1>
+    <div ng-app="myApp">
+
+        <div ng-controller="Ctrl">
+            <button ng-click="getWidgetFeature()">Get Widget Feature</button>
+            {{ status }}
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', ['restangular'])
+        .controller('Ctrl', function ($scope, Restangular) {
+            $scope.getWidgetFeature = function () {
+                Restangular
+                    .one('widgets', 6)
+                    .one('features', 11)
+                    .get()
+                    .then(function (feature) {
+                        // success handler
+                        $scope.status = 'Widget feature success!';
+                    }, function () {
+                        // error handler
+                        $scope.status = 'Widget feature failure!';
+                    });
+            };
+        });
+
+</script>
+</html>

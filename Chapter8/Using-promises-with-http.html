@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Using promises with $http</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Using promises with $http</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl"></div>
+    </div>
+
+</body>
+<script>
+    
+    angular.module('myApp', [])
+        .controller('Ctrl', function ($log, $http) {
+
+            // these are split into variables to be able to inspect
+            // the returned promises
+            var a = $http.get('/')
+                , b = a.success(function () { })
+                , c = b.error(function () { })
+                , d = c.then(function () { });
+
+            $log.log(a === b, a === c, a === d, b === c, b === d, c === d);
+            //       true   true   false  true   false  false
+
+            var e = $http.get('/')
+                , f = e.then(function () { })
+                , g = e.then(function () { });
+
+            $log.log(e === f, e === g, f === g);
+            //       false  false  false
+        });
+
+
+</script>
+</html>

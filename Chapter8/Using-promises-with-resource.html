@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Using promises with $resource</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Using promises with $resource</h1>
+
+<div ng-app="myApp">
+    <div ng-controller="Ctrl">
+        <button ng-click="getWidget()">Get Widget</button>
+        {{ status }}
+    <div />
+</div>
+
+</body>
+<script>
+    
+    angular.module('myApp', ['ngResource'])
+        .controller('Ctrl', function ($scope, $resource) {
+            // creates the resource object, which exposes get(), post(), etc.
+            var Widget = $resource('/widgets/:widgetId', { widgetId: '@id' });
+
+            $scope.getWidget = function () {
+                // resource object must be coaxed into returning its promise
+                // this can be done with the $promise property
+                Widget.get({ id: 8 })
+                    .$promise
+                    .then(function (widget) {
+                        // widget is the returned object with id=8
+                        $scope.status = 'Success!';
+                    }, function () {
+                        // error callback
+                        // this will always happen in this example since
+                        // JSFiddle does not have a /widgets endpoint
+                        $scope.status = 'Failure!';
+                    });
+            };
+        });
+
+
+</script>
+</html>

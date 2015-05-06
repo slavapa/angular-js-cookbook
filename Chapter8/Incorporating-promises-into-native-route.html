@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Incorporating promises into native route resolves</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+    <script src="../JavaScripts/angular-route.js"></script>
+</head>
+<body>
+    <h1>Incorporating promises into native route resolves</h1>
+
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="navigate()">Navigate!</button>
+            <div ng-view></div>
+        </div>
+    </div>
+
+
+</body>
+<script>
+    
+    angular.module('myApp', ['ngRoute'])
+        .config(function ($routeProvider) {
+            $routeProvider
+                .when('/myUrl', {
+                    template: '<h1>Resolved!</h1>',
+                    // resolved values are injected by property name
+                    controller: function ($log, myPromise, myData) {
+                        $log.log(myPromise, myData);
+                    },
+                    resolve: {
+                        // $q injected into resolve function
+                        myPromise: function ($q) {
+                            var deferred = $q.defer()
+                                , promise = deferred.promise;
+                            deferred.resolve(123);
+                            return promise;
+                        },
+                        myData: function () {
+                            return 456;
+                        }
+                    }
+                });
+        })
+        .controller('Ctrl', function ($scope, $location) {
+            $scope.navigate = function () {
+                $location.url('myUrl')
+            };
+        });
+
+</script>
+</html>

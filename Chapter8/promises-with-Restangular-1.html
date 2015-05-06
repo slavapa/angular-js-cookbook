@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="../JavaScripts/angular-csp.css" rel="stylesheet" />
+    <style>
+        
+         
+    </style>
+    <title>Using promises with Restangular 1</title>
+
+    <script src="../JavaScripts/jquery-1.11.2.js"></script>
+    <script src="../JavaScripts/angular.js"></script>
+</head>
+<body>
+    <h1>Using promises with Restangular 1</h1>
+    <div ng-app="myApp">
+        <div ng-controller="Ctrl">
+            <button ng-click="getOneWidget()">Get One Widget</button>
+            <button ng-click="getManyWidgets()">Get Many Widgets</button>
+            {{ status }}
+        </div>
+    </div>
+</body>
+<script>
+    
+    angular.module('myApp', ['restangular'])
+        .controller('Ctrl', function ($scope, Restangular) {
+            $scope.getOneWidget = function () {
+                Restangular
+                    .one('widget', 4)
+                    // get() will return a promise for the GET request
+                    .get()
+                    .then(
+                        function (data) {
+                            // consume response data in success handler
+                            $scope.status = 'One widget success!';
+                        },
+                        function (response) {
+                            // consume response message in error handler
+                            $scope.status = 'One widget failure!';
+                        }
+                    );
+            };
+
+            // generally, the API mapping is stored in a variable,
+            // and the promise-returning method will be invoked as needed
+            var widgets = Restangular.all('widgets');
+
+            $scope.getManyWidgets = function () {
+                // create the request promise
+                widgets.getList()
+                    .then(function (widgets) {
+                        // success handler
+                        $scope.status = 'Many widgets success!';
+                    }, function () {
+                        // error handler
+                        $scope.status = 'Many widgets failure!';
+                    });
+            };
+        });
+
+</script>
+</html>
